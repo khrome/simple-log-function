@@ -112,4 +112,22 @@ describe('simple-log-function', ()=>{
             }, 100);
         });
     });
+
+    describe('does not attempt to log things that aren\'t active', ()=>{
+        it('does no log pre-work when log level is not set', (done)=>{
+            let message = 'something';
+            global.console.trace = (output)=>{
+                should.not.exist('should not output anything', true);
+            };
+            log.header = (filename)=>{
+                should.not.exist('should not build anything', true);
+            };
+
+            log.level = log.levels.DEBUG;
+            log(message, log.levels.TRACE);
+            setTimeout(()=>{
+                done();
+            }, 100);
+        });
+    });
 });

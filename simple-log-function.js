@@ -30,7 +30,7 @@ const callerFile = function(depth){
 }
 
 const log = function(message, level, data){
-    if(level > loglib.getLevel()) return; //do nothing if we're out of range
+    if(level < loglib.getLevel()) return; //do nothing if we're out of range
     let logData = data || {level, message};
     let outBoundMessage = null;
     switch(log.mode){
@@ -39,7 +39,7 @@ const log = function(message, level, data){
             break;
         case 'text' :
         default :
-            outBoundMessage = makeHeader(callerFile(log.depth)) + message + (
+            outBoundMessage = log.header(callerFile(log.depth)) + message + (
                 data? '  '+JSON.stringify(data):''
             );
             break;
